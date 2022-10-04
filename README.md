@@ -37,7 +37,7 @@ cv en simpleanonymous
 
 ## Getting Started
 
-(* FIXME: Where would a new user navigate to get started? What changes would they see? *)
+You should Configure The Extension. Go to Administer > CiviContribute > Configure Simple Anonymous
 
 ## Known Issues
 
