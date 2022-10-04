@@ -8,71 +8,57 @@ use CRM_Simpleanonymous_ExtensionUtil as E;
  * @see https://docs.civicrm.org/dev/en/latest/framework/quickform/
  */
 class CRM_Simpleanonymous_Form_Configuration extends CRM_Core_Form {
-  public function buildQuickForm() {
+    public function buildQuickForm()
+    {
+        $save_log = $this->add('checkbox', 'save_log', 'Save extension debug to log');
+        $anonynomous_email = $this->add('email', 'anonynomous_email', 'Anonynomous Email', ['size' => 100]);
+        $types = ['Contact'];
+        $profiles = CRM_Core_BAO_UFGroup::getValidProfiles($types);
 
-    // add form elements
-    $this->add(
-      'select', // field type
-      'favorite_color', // field name
-      'Favorite Color', // field label
-      $this->getColorOptions(), // list of options
-      TRUE // is required
-    );
-    $this->addButtons(array(
-      array(
-        'type' => 'submit',
-        'name' => E::ts('Submit'),
-        'isDefault' => TRUE,
-      ),
-    ));
+        if (empty($profiles)) {
+            CRM_Core_Session::setStatus(ts("You will need to create a Profile containing the %1 fields you want to edit before you can use Update multiple contributions. Navigate to Administer CiviCRM > Customize Data and Screens > CiviCRM Profile to configure a Profile. Consult the online Administrator documentation for more information.", [1 => $types[0]]), ts('Profile Required'), 'error');
+            CRM_Utils_System::redirect($this->_userContext);
+        }
 
-    // export form elements
-    $this->assign('elementNames', $this->getRenderableElementNames());
-    parent::buildQuickForm();
-  }
+        $profile = $this->add('select', 'profile', ts('Select Profile'),
+            [
+                '' => ts('- select profile -'),
+            ] + $profiles, TRUE
+        );
 
-  public function postProcess() {
-    $values = $this->exportValues();
-    $options = $this->getColorOptions();
-    CRM_Core_Session::setStatus(E::ts('You picked color "%1"', array(
-      1 => $options[$values['favorite_color']],
-    )));
-    parent::postProcess();
-  }
-
-  public function getColorOptions() {
-    $options = array(
-      '' => E::ts('- select -'),
-      '#f00' => E::ts('Red'),
-      '#0f0' => E::ts('Green'),
-      '#00f' => E::ts('Blue'),
-      '#f0f' => E::ts('Purple'),
-    );
-    foreach (array('1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e') as $f) {
-      $options["#{$f}{$f}{$f}"] = E::ts('Grey (%1)', array(1 => $f));
+        $this->addButtons([
+            [
+                'type' => 'submit',
+                'name' => E::ts('Submit'),
+                'isDefault' => TRUE,
+            ],
+        ]);
+        parent::buildQuickForm();
     }
-    return $options;
-  }
 
-  /**
-   * Get the fields/elements defined in this form.
-   *
-   * @return array (string)
-   */
-  public function getRenderableElementNames() {
-    // The _elements list includes some items which should not be
-    // auto-rendered in the loop -- such as "qfKey" and "buttons".  These
-    // items don't have labels.  We'll identify renderable by filtering on
-    // the 'label'.
-    $elementNames = array();
-    foreach ($this->_elements as $element) {
-      /** @var HTML_QuickForm_Element $element */
-      $label = $element->getLabel();
-      if (!empty($label)) {
-        $elementNames[] = $element->getName();
-      }
+    public function setDefaultValues()
+    {
+        $defaults = [];
+        $simple2c2p_settings = CRM_Core_BAO_Setting::getItem("Simple Anonymous Settings", 'simpleanonymous_settings');
+        if (!empty($simple2c2p_settings)) {
+            $defaults = $simple2c2p_settings;
+        }
+        return $defaults;
     }
-    return $elementNames;
-  }
+
+    public function postProcess()
+    {
+        $values = $this->exportValues();
+        $simpleanonymous_settings['save_log'] = $values['save_log'];
+        $simpleanonymous_settings['anonynomous_email'] = $values['anonynomous_email'];
+        $simpleanonymous_settings['profile'] = $values['profile'];
+
+
+        CRM_Core_BAO_Setting::setItem($simpleanonymous_settings, "Simple Anonymous Settings", 'simpleanonymous_settings');
+        CRM_Core_Session::setStatus(E::ts('Simple Anonymous Settings Saved', ['domain' => 'com.drkhindol.simpleanonymous']), 'Configuration Updated', 'success');
+
+        parent::postProcess();
+    }
+
 
 }

@@ -95,14 +95,15 @@ function simpleanonymous_civicrm_entityTypes(&$entityTypes) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
  */
-//function simpleanonymous_civicrm_navigationMenu(&$menu) {
-//  _simpleanonymous_civix_insert_navigation_menu($menu, 'Mailings', [
-//    'label' => E::ts('New subliminal message'),
-//    'name' => 'mailing_subliminal_message',
-//    'url' => 'civicrm/mailing/subliminal',
-//    'permission' => 'access CiviMail',
-//    'operator' => 'OR',
-//    'separator' => 0,
-//  ]);
-//  _simpleanonymous_civix_navigationMenu($menu);
-//}
+
+function simpleanonymous_civicrm_navigationMenu(&$menu) {
+  _simpleanonymous_civix_insert_navigation_menu($menu, 'Administer/CiviContribute', [
+    'label' => E::ts('Configure Simple Anonymous'),
+    'name' => 'configure_simple_anonymous',
+    'url' => 'civicrm/simpleanonymous/configuration',
+    'permission' => 'adminster CiviCRM',
+    'operator' => 'OR',
+    'separator' => 0,
+  ]);
+  _simpleanonymous_civix_navigationMenu($menu);
+}
