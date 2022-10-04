@@ -9,10 +9,10 @@
       <span class="description">Save debug info of the extension in the log file</span></td>
   </tr>
   <tr>
-    <td class="label">{$form.anonynomous_email.label}</td>
-    <td>{$form.anonynomous_email.html}
+    <td class="label">{$form.anonynomous_id.label}</td>
+    <td>{$form.anonynomous_id.html}
       <br>
-      <span class="description">Email of the Anonymous User</span></td>
+      <span class="description">Anonymous User</span></td>
   </tr>
   <tr>
     <td class="label">{$form.profile.label}</td>

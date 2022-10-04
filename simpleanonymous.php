@@ -4,6 +4,7 @@ require_once 'simpleanonymous.civix.php';
 
 // phpcs:disable
 use CRM_Simpleanonymous_ExtensionUtil as E;
+use CRM_Simpleanonymous_Utils as U;
 
 // phpcs:enable
 
@@ -110,9 +111,29 @@ function simpleanonymous_civicrm_entityTypes(&$entityTypes)
 function simpleanonymous_civicrm_pre($op, $objectName, $objectId, &$params)
 {
     if ($op === 'create') {
-        CRM_Simpleanonymous_Utils::write_log($objectName, 'objectName');
-        CRM_Simpleanonymous_Utils::write_log($objectId, 'objectId');
-        CRM_Simpleanonymous_Utils::write_log($params, 'params');
+        if ($objectName === 'Contribution') {
+            $contribution_page_id = $params['contribution_page_id'];
+            if (U::checkHasAnonProfile($contribution_page_id)) {
+                $params['contact_id'] = U::getAnonymousUserID();
+            }
+        }
+    }
+    if ($op === 'edit') {
+        if ($objectName === 'Individual') {
+            if (array_key_exists('invoiceID', $params)) {
+                $anonymous_id = U::getAnonymousUserID();
+                if ($objectId === $anonymous_id) {
+                    unset($params['first_name']);
+                    unset($params['last_name']);
+                    unset($params['email']);
+                    unset($params['email-5']);
+                    unset($params['phone']);
+                }
+            }
+        }
+//        U::write_log($objectName, 'edit objectName');
+//        U::write_log($objectId, 'edit objectId');
+//        U::write_log($params, 'edit params');
     }
 }
 
