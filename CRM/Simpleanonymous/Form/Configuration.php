@@ -39,9 +39,9 @@ class CRM_Simpleanonymous_Form_Configuration extends CRM_Core_Form {
     public function setDefaultValues()
     {
         $defaults = [];
-        $simple2c2p_settings = CRM_Core_BAO_Setting::getItem("Simple Anonymous Settings", 'simpleanonymous_settings');
-        if (!empty($simple2c2p_settings)) {
-            $defaults = $simple2c2p_settings;
+        $simpleanonymous_settings = CRM_Core_BAO_Setting::getItem("Simple Anonymous Settings", 'simpleanonymous_settings');
+        if (!empty($simpleanonymous_settings)) {
+            $defaults = $simpleanonymous_settings;
         }
         return $defaults;
     }
