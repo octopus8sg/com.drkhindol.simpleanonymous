@@ -44,8 +44,7 @@ class CRM_Simpleanonymous_Utils
     {
         try {
             $result = FALSE;
-            $simpleanonymous_settings = CRM_Core_BAO_Setting::getItem("Simple Anonymous Settings", 'simpleanonymous_settings');
-            $profile = $simpleanonymous_settings['profile'];
+            $profile = self::getAnonymousProfileID();
             //        CRM_Simpleanonymous_Utils::write_log($params, 'create params');
             $ufJoinParams = [
                 'entity_table' => 'civicrm_contribution_page',
@@ -70,9 +69,9 @@ class CRM_Simpleanonymous_Utils
     }
 
     /**
-     * @param $contribution_page_id
-     * @return bool
+     * @return mixed
      */
+
     public static function getAnonymousUserID()
     {
 //        $result = FALSE;
@@ -83,6 +82,63 @@ class CRM_Simpleanonymous_Utils
         } catch (\Exception $exception) {
             $error_message = $exception->getMessage();
             $error_title = 'Anonymous User Required';
+            CRM_Simpleanonymous_Utils::showErrorMessage($error_message, $error_title);
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getAnonymousProfileID()
+    {
+//        $result = FALSE;
+        try {
+            $simpleanonymous_settings = CRM_Core_BAO_Setting::getItem("Simple Anonymous Settings", 'simpleanonymous_settings');
+            $result = $simpleanonymous_settings['profile'];
+            return $result;
+        } catch (\Exception $exception) {
+            $error_message = $exception->getMessage();
+            $error_title = 'Anonymous Profile Required';
+            CRM_Simpleanonymous_Utils::showErrorMessage($error_message, $error_title);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public static function getHideEmail()
+    {
+        $result = FALSE;
+        try {
+            $simpleanonymous_settings = CRM_Core_BAO_Setting::getItem("Simple Anonymous Settings", 'simpleanonymous_settings');
+            $result_ = $simpleanonymous_settings['hide_email'];
+            if ($result_ == 1) {
+                $result = TRUE;
+            }
+            return $result;
+        } catch (\Exception $exception) {
+            $error_message = $exception->getMessage();
+            $error_title = 'Anonymous Profile Required';
+            CRM_Simpleanonymous_Utils::showErrorMessage($error_message, $error_title);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public static function getHideProfile()
+    {
+        $result = FALSE;
+        try {
+            $simpleanonymous_settings = CRM_Core_BAO_Setting::getItem("Simple Anonymous Settings", 'simpleanonymous_settings');
+            $result_ = $simpleanonymous_settings['hide_profile'];
+            if ($result_ == 1) {
+                $result = TRUE;
+            }
+            return $result;
+        } catch (\Exception $exception) {
+            $error_message = $exception->getMessage();
+            $error_title = 'Anonymous Profile Required';
             CRM_Simpleanonymous_Utils::showErrorMessage($error_message, $error_title);
         }
     }

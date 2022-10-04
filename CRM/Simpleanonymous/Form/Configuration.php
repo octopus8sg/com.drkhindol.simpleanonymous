@@ -19,6 +19,8 @@ class CRM_Simpleanonymous_Form_Configuration extends CRM_Core_Form {
     public function buildQuickForm()
     {
         $save_log = $this->add('checkbox', 'save_log', 'Save extension debug to log');
+        $save_log = $this->add('checkbox', 'hide_email', 'Hide Primary Email Field');
+        $save_log = $this->add('checkbox', 'hide_profile', 'Hide Profile');
 //        $anonynomous_email = $this->add('email', 'anonynomous_email', 'Anonynomous Email', ['size' => 100]);
         $anonynomous_id = $this->addEntityRef('anonynomous_id', E::ts('Anonymous User'),
             ['create' => false, 'multiple' => false, 'class' => 'huge'],
@@ -65,6 +67,8 @@ class CRM_Simpleanonymous_Form_Configuration extends CRM_Core_Form {
         $simpleanonymous_settings['save_log'] = $values['save_log'];
         $simpleanonymous_settings['anonynomous_id'] = $values['anonynomous_id'];
         $simpleanonymous_settings['profile'] = $values['profile'];
+        $simpleanonymous_settings['hide_email'] = $values['hide_email'];
+        $simpleanonymous_settings['hide_profile'] = $values['hide_profile'];
 
 
         CRM_Core_BAO_Setting::setItem($simpleanonymous_settings, "Simple Anonymous Settings", 'simpleanonymous_settings');

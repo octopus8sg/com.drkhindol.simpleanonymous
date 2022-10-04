@@ -165,7 +165,14 @@ function simpleanonymous_civicrm_buildForm($formName, &$form)
         $form_array = (Array)$form;
         $contribution_page_id = CRM_Utils_Array::value('_id', $form_array);
         if (U::checkHasAnonymousProfile($contribution_page_id)) {
-            CRM_Core_Resources::singleton()->addScriptFile('com.drkhindol.simpleanonymous', 'js/hide_email.js', 1);
+            $profile = U::getAnonymousProfileID();
+            CRM_Core_Resources::singleton()->addVars('SimpleAnonymous', array('section' => '.crm-profile-id-' . strval($profile)));
+            if(U::getHideEmail()){
+                CRM_Core_Resources::singleton()->addScriptFile('com.drkhindol.simpleanonymous', 'js/hide_email.js', 1);
+            }
+            if(U::getHideProfile()){
+                CRM_Core_Resources::singleton()->addScriptFile('com.drkhindol.simpleanonymous', 'js/hide_profile.js', 1);
+            }
         }
     }
 

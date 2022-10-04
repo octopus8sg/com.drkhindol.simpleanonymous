@@ -9,6 +9,18 @@
       <span class="description">Save debug info of the extension in the log file</span></td>
   </tr>
   <tr>
+    <td class="label">{$form.hide_email.label}</td>
+    <td>{$form.hide_email.html}
+      <br>
+      <span class="description">Hide Primary Email Field</span></td>
+  </tr>
+  <tr>
+    <td class="label">{$form.hide_profile.label}</td>
+    <td>{$form.hide_profile.html}
+      <br>
+      <span class="description">Hide Profile Section</span></td>
+  </tr>
+  <tr>
     <td class="label">{$form.anonynomous_id.label}</td>
     <td>{$form.anonynomous_id.html}
       <br>
