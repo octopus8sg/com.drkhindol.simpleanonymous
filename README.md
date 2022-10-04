@@ -1,6 +1,6 @@
 # com.drkhindol.simpleanonymous
 
-![Screenshot](/images/screenshot.png)
+![Screenshot](/images/screenshot.jpg)
 
 (*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
 
