@@ -113,7 +113,7 @@ function simpleanonymous_civicrm_pre($op, $objectName, $objectId, &$params)
     if ($op === 'create') {
         if ($objectName === 'Contribution') {
             $contribution_page_id = $params['contribution_page_id'];
-            if (U::checkHasAnonProfile($contribution_page_id)) {
+            if (U::checkHasAnonymousProfile($contribution_page_id)) {
                 $params['contact_id'] = U::getAnonymousUserID();
             }
         }

@@ -12,7 +12,7 @@ class CRM_Simpleanonymous_Utils
      * @param $input
      * @param $preffix_log
      */
-    public static function write_log($input, $preffix_log = "Simple Anonymous Log")
+    public static function writeLog($input, $preffix_log = "Simple Anonymous Log")
     {
         try {
             $simpleanonymous_settings = CRM_Core_BAO_Setting::getItem("Simple Anonymous Settings", 'simpleanonymous_settings');
@@ -40,7 +40,7 @@ class CRM_Simpleanonymous_Utils
      * @param $contribution_page_id
      * @return bool
      */
-    public static function checkHasAnonProfile($contribution_page_id)
+    public static function checkHasAnonymousProfile($contribution_page_id)
     {
         try {
             $result = FALSE;
@@ -60,7 +60,7 @@ class CRM_Simpleanonymous_Utils
             if ($ufJoin->is_active) {
                 $result = TRUE;
             }
-            CRM_Simpleanonymous_Utils::write_log(strval($result), 'check_if_has_anon_profile');
+            CRM_Simpleanonymous_Utils::writeLog(strval($result), 'check_if_has_anon_profile');
             return $result;
         } catch (\Exception $exception) {
             $error_message = $exception->getMessage();
