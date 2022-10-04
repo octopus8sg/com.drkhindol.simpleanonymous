@@ -131,9 +131,9 @@ function simpleanonymous_civicrm_pre($op, $objectName, $objectId, &$params)
                 }
             }
         }
-//        U::write_log($objectName, 'edit objectName');
-//        U::write_log($objectId, 'edit objectId');
-//        U::write_log($params, 'edit params');
+//        U::writeLog($objectName, 'edit objectName');
+//        U::writeLog($objectId, 'edit objectId');
+//        U::writeLog($params, 'edit params');
     }
 }
 
@@ -154,4 +154,19 @@ function simpleanonymous_civicrm_navigationMenu(&$menu)
         'separator' => 0,
     ]);
     _simpleanonymous_civix_navigationMenu($menu);
+}
+
+function simpleanonymous_civicrm_buildForm($formName, &$form)
+{
+//    U::writeLog($formName, 'form name');
+//    U::writeLog((Array) $form, 'form form');
+
+    if ($formName == 'CRM_Contribute_Form_Contribution_Main') {
+        $form_array = (Array)$form;
+        $contribution_page_id = CRM_Utils_Array::value('_id', $form_array);
+        if (U::checkHasAnonymousProfile($contribution_page_id)) {
+            CRM_Core_Resources::singleton()->addScriptFile('com.drkhindol.simpleanonymous', 'js/hide_email.js', 1);
+        }
+    }
+
 }
